@@ -1,1 +1,28 @@
-<p>login works!</p>
+<div class="login-page">
+    <mat-card>
+        <mat-card-title class="title">
+            Welcome to Online Library System
+        </mat-card-title>
+        <mat-card-content>
+            <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+                <div class="form-container">
+                    <div class="form-field">
+                        <mat-form-field>
+                            <label for="username">Username</label>
+                               <input matInput type="text" placeholder="username/email" formControlName="username">
+                        </mat-form-field>
+                    </div>
+                    <div class="form-field">
+                        <mat-form-field>
+                            <label for="password">Password</label>
+                            <input matInput type="password" placeholder="password" formControlName="password">
+                        </mat-form-field>
+                    </div>
+                    <div class="form-field">
+                        <button mat-raised-button type="submit">Login</button>
+                    </div>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

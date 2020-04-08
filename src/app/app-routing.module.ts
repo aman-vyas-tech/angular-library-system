@@ -8,12 +8,12 @@ import { LibraryHomeComponent } from './library-home/library-home.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const routes: Routes = [
-  { path: '', component: LibraryHomeComponent },
-  { path: 'home', redirectTo: '',  component: LibraryHomeComponent },
+  { path: '', component: LoginComponent },
+  { path: 'home',   component: LibraryHomeComponent },
   { path: 'search', component: BookSearchComponent },
   { path: 'about', component: AboutUsComponent },
   { path: 'contact', component: ContactComponent },
-  { path: 'login', component: LoginComponent },
+  { path: 'login',  redirectTo: '', component: LoginComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
 

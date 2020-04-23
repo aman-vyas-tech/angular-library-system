@@ -1,0 +1,9 @@
+.container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.books-container {
+    width: 25%;
+    flex-grow: 2;
+}

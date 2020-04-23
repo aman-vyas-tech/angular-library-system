@@ -1,4 +1,6 @@
+import { UserService } from './../auth/user.service';
 import { Component, OnInit } from '@angular/core';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-library-home',
@@ -6,8 +8,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./library-home.component.css']
 })
 export class LibraryHomeComponent implements OnInit {
+  loading: boolean;
+  users: unknown;
 
-  constructor() { }
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
   }

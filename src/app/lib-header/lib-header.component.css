@@ -38,14 +38,19 @@ img {
  * clean and airy
  * and contents centered
  */
-.main-nav ul {
-	margin: 0.5em 0 .5em;
-	text-align: center;
+
+.nav-button {
+	width: 110px;
+	color: white;
 }
-.main-nav li {
-	display: inline;
-}
-.main-nav a {
-	display: inline-block;
-	padding: .5em 1.5em;
-}
+
+/* .active {
+	background-color: burlywood
+} */
+
+
+.fill-remaining-space {
+	/*This fills the remaining space, by using flexbox.  
+   Every toolbar row uses a flexbox row layout. */
+   flex: 1 1 auto;
+ }

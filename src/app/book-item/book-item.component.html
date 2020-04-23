@@ -1,1 +1,14 @@
-<p>book-item works!</p>
+<div class="book-container">
+    <mat-card class="example-card">
+        <mat-card-header>
+          <mat-card-title>{{ trimTitle(book.title) }}</mat-card-title>
+        </mat-card-header>
+        <div class="image">
+            <img mat-card-image src="{{book.thumbnailUrl}}" alt="Photo Not Available">
+        </div>
+        <mat-card-actions align="center">
+          <button class="btn-action" *ngIf="true" mat-stroked-button color="primary" [routerLink]="['/book', book.isbn]">Details</button>
+          <button class="btn-action" *ngIf="book.count === 0" mat-stroked-button  disabled>Out of Stock</button>
+        </mat-card-actions>
+      </mat-card>
+</div>

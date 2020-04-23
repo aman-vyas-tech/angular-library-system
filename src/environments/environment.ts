@@ -3,8 +3,15 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
-};
+  production: false,
+  auth: {
+    clientID: 'Il8wePlpOaE3X0m7JUGDj50UDEaSe22u',
+    domain: 'dev-xoyhcfsj.auth0.com', // e.g., https://you.auth0.com/
+    audience: 'http://localhost:4200', // e.g., http://localhost:3001
+    redirect: 'http://localhost:4200',
+    scope: 'openid profile email'
+  }
+};  
 
 /*
  * For easier debugging in development mode, you can import the following file

@@ -1,1 +1,13 @@
-<app-books></app-books>
+<div class="search-container">
+    <form [formGroup]="searchForm" class="searchForm" (ngSubmit)="onSearch(searchKey)">
+        <div class="form-field">
+            <mat-form-field>
+                <input type="text" placeholder="Search BY Title" matInput formControlName="searchKey">
+            </mat-form-field>
+        </div>
+        <div class="form-field">
+            <button type="submit" mat-raised-button color="primary">Search</button>
+        </div>
+    </form>
+</div>
+<app-books [books]="books"></app-books>

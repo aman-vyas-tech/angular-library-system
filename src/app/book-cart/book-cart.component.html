@@ -1,1 +1,29 @@
-<p>book-cart works!</p>
+<div class="cart-container">
+    <div class="book-container">
+        <div><h1>Books Added in Cart:</h1></div>
+        <app-book-item [book]="book"></app-book-item>
+    </div>
+    <div class="checkout-form">
+        <form [formGroup]="checkoutForm" (ngSubmit)="checkoutBooks(book, checkoutForm)">
+            <div class="form-field">
+                <mat-form-field>
+                    <label for="username">Username</label>
+                    <input matInput type="text" formControlName="username">
+                </mat-form-field>
+                <div class="error" *ngIf="formControls.username.invalid && formControls.username.touched"><span>*Username is required</span></div>
+            </div>
+            <div class="form-field">
+                <mat-form-field>
+                    <mat-label>Choose a date</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="issuedTillDate">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+                <div class="error" *ngIf="formControls.issuedTillDate.invalid && formControls.issuedTillDate.touched"><span>*Issue Till date is required</span></div>
+            </div>
+            <div class="form-field">
+                <button mat-raised-button color="primary" type="submit">Checkout Book</button>
+            </div>
+        </form>
+    </div>
+</div>

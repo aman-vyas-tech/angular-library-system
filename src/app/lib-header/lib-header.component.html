@@ -1,27 +1,45 @@
-<header class="main-header">
-	<div class="container">
-		<h1 class="mh-logo">
-			<img src="assets/logo.jpg" width="90" height="50" alt="Flexbox.ninja">
-		</h1>
-		<nav class="main-nav">
-			<ul class="main-nav-list">
-				<li>
-					<a routerLink="/home" href="">Home</a>
-                </li>
-                <li>
-					<a routerLink="/search" >Book Search</a>
-				</li>
-				<li>
-					<a routerLink="/about" href="#">About us</a>
-                </li>
-                <li>
-					<a routerLink="/contact" href="#">Contact</a>
-				</li>
-				<li>
-					<a routerLink="/login" href="#">Logout</a>
-				</li>
-				
-			</ul>
-		</nav>
+<mat-toolbar color="primary">
+	<button mat-button routerLink="/">
+		<mat-icon>home</mat-icon>
+		{{title}}
+	</button>
+
+	<span class="fill-remaining-space"></span>
+
+	<div fxLayout="row" fxHide fxShow.gt-sm>
+
+		<button class="nav-button" routerLinkActive="active" mat-button color="primary"
+			(click)="selectedItem = item1" routerLink="/home" #item1>Home</button>
+
+		<button class="nav-button" routerLinkActive="active" mat-button color="primary"
+			(click)="selectedItem = item2" routerLink="/search" #item2>Book Search</button>
+
+		<button class="nav-button" [ngClass]="{'active': selectedItem === item3}" mat-button color="primary"
+			(click)="selectedItem = item3" routerLink="/about" #item3>About us</button>
+
+		<button class="nav-button" [ngClass]="{'active': selectedItem === item4}" mat-button color="primary"
+			(click)="selectedItem = item4" routerLink="/contact" #item4>Contact</button>
+
+		<button class="nav-button" [ngClass]="{'active': selectedItem === item5}" mat-button color="primary"
+			(click)="selectedItem = item5" routerLink="/login" #item5>Logout</button>
 	</div>
-</header>
+	<!-- <button mat-button [mat-menu-trigger-for]="menu" fxShow fxHide.gt-sm>
+		<mat-icon>menu</mat-icon>
+	</button> -->
+</mat-toolbar>
+<!-- <mat-menu x-position="before" #menu color="primary">
+	<button class="nav-button" routerLinkActive="active" mat-button color="primary"
+		(click)="selectedItem = item1" routerLink="/home" #item1>Home</button>
+
+	<button class="nav-button" routerLinkActive="active" mat-button color="primary"
+		(click)="selectedItem = item2" routerLink="/search" #item2>Book Search</button>
+
+	<button class="nav-button" [ngClass]="{'active': selectedItem === item3}" mat-button color="primary"
+		(click)="selectedItem = item3" routerLink="/about" #item3>About us</button>
+
+	<button class="nav-button" [ngClass]="{'active': selectedItem === item4}" mat-button color="primary"
+		(click)="selectedItem = item4" routerLink="/contact" #item4>Contact</button>
+
+	<button class="nav-button" [ngClass]="{'active': selectedItem === item5}" mat-button color="primary"
+		(click)="selectedItem = item5" routerLink="/login" #item5>Logout</button>
+</mat-menu> -->

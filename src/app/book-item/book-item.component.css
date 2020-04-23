@@ -1,0 +1,32 @@
+.book-container {
+    width: 200px;
+    height: 500px;
+    margin: 10%;
+}
+mat-card {
+    height: 400px;
+}
+
+mat-card-title {
+    height: 90px;
+}
+
+.example-card {
+    max-width: 400px;
+  }
+
+.image {
+    min-height: 200px;
+    max-height: 200px;
+    width: 200px;
+  }
+
+img {
+      min-height: 200px;
+      max-height: 200px;
+      width: 200px;
+  }
+
+  button.btn-action {
+      margin-bottom: 10px;
+  }

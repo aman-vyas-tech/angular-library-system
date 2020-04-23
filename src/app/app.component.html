@@ -1,3 +1,11 @@
-<app-lib-header *ngIf="isAuth"></app-lib-header>
-<router-outlet></router-outlet>
-<app-footer *ngIf="isAuth"></app-footer>
+<div class="app-container">
+    <!-- <nav class="navbar navbar-expand navbar-dark bg-dark">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" routerLink="/home">Home</a>
+            <a class="nav-item nav-link" (click)="logout()">Logout</a>
+        </div>
+    </nav> -->
+    <app-lib-header></app-lib-header>
+    <router-outlet></router-outlet>
+    <app-footer class="footer"></app-footer>
+</div>

@@ -6,7 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./lib-header.component.css']
 })
 export class LibHeaderComponent implements OnInit {
-
+  public selectedItem: any;
+  public title = 'Angular Library Management System';
   constructor() { }
 
   ngOnInit() {

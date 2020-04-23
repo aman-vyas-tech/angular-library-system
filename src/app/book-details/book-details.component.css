@@ -1,0 +1,17 @@
+.book-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    font-weight: 300;
+    color: black;
+}
+
+.heading {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+img {
+    width: 300px;
+    height: 500px;
+}

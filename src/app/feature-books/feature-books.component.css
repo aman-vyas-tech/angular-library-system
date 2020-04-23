@@ -1,0 +1,11 @@
+.feature-books-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    
+}
+
+.feature-books {
+    width: 33.33%;
+}

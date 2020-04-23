@@ -42,6 +42,11 @@ img {
 .nav-button {
 	width: 110px;
 	color: white;
+	font-size: medium;
+}
+
+.title {
+	font-size: medium;
 }
 
 /* .active {

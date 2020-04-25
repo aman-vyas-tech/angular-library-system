@@ -1,3 +1,4 @@
+import { AuthService } from './../auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -8,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 export class LibHeaderComponent implements OnInit {
   public selectedItem: any;
   public title = 'Angular Library Management System';
-  constructor() { }
+  constructor(private authservice: AuthService) { }
 
   ngOnInit() {
   }
 
+  onLogin() {
+    this.authservice.login();
+  }
+
+  onLogout() {
+    this.authservice.logout();
+  }
 }

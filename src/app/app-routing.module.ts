@@ -11,14 +11,14 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LibraryHomeComponent } from './library-home/library-home.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { BookItemComponent } from './book-item/book-item.component';
 import { BookDetailsComponent } from './book-details/book-details.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full'},
+  { path: '', component: LoginComponent},
   { path: 'callback', component: CallbackComponent },
-  { path: 'home',   component: LibraryHomeComponent },
-  { path: 'search', component: BookSearchComponent },
+  { path: '', canActivate: [AuthGuard], children: [
+  { path: 'home',   component: LibraryHomeComponent,  canActivate: [AuthGuard]},
+  { path: 'search', component: BookSearchComponent }, 
   { path: 'wishlist', component: BookWishlistComponent },
   { path: 'book/:id', component: BookDetailsComponent },
   { path: 'cart', component: BookCartComponent },
@@ -27,7 +27,11 @@ const routes: Routes = [
   { path: 'confirm', component: OrderConfirmComponent },
   { path: 'login',  redirectTo: '', component: LoginComponent },
   { path: '**', component: PageNotFoundComponent }
+  ]}
 ];
+// routes.forEach(route => {
+//   route.canActivate.push([AuthGuard]);
+// });
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

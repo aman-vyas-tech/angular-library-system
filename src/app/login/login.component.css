@@ -22,20 +22,5 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 10%;
-    background-color: coral;
-}
-
-.form-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-.title {
-    align-items: center;
-}
-
-.error {
-  color: red;
+    margin-top: 15%;
 }

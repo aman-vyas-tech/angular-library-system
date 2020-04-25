@@ -16,7 +16,7 @@ export class BookSearchComponent implements OnInit {
 
   ngOnInit() {
     this.searchForm = this.fb.group({
-      searchKey: new FormControl('', Validators.required)
+      searchKey: new FormControl('')
     })
   }
 

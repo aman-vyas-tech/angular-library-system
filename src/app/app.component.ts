@@ -14,19 +14,14 @@ export class AppComponent {
 
   constructor(
       private router: Router,
-      private authenticationService: AuthenticationService,
       private authService: AuthService
   ) {
-      // this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
-
-      // if(this.authService.isLoggedIn) {
-      //   this.router.navigate(['/home']);
-      // } 
+      
   }
-
+  ngOnInit() {
+    this.authService.localAuthSetup();
+  }
   logout() {
-      // this.authenticationService.logout();
-      // this.router.navigate(['/']);
       this.authService.logout();
   }
 }

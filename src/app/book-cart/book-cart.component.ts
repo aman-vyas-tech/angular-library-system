@@ -1,3 +1,6 @@
+import { AngularFirestore } from '@angular/fire/firestore/firestore';
+import { User } from 'firebase';
+import { AngularFireAuth } from '@angular/fire/auth';
 import { CheckoutService } from './../services/checkout.service';
 import { Book } from 'src/app/book';
 import { BookDataService } from './../services/books/book-data.service';
@@ -13,13 +16,19 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 export class BookCartComponent implements OnInit {
   book: Book;
   checkoutForm: FormGroup;
+  user: User;
   constructor(private activatedRouter: ActivatedRoute,
               private bookDataService: BookDataService,
               private fb : FormBuilder,
+              private auth: AngularFireAuth,
+              private firestore: AngularFirestore,
               private checkoutService: CheckoutService,
               private router: Router) {  }
 
   ngOnInit() {
+    this.auth.authState.subscribe(user => {
+      this.user = user;
+    })
     this.getCartBooks();
     this.checkoutForm = this.fb.group({
       username: new FormControl('', Validators.required),
@@ -41,6 +50,14 @@ export class BookCartComponent implements OnInit {
 
   get formControls() {
     return this.checkoutForm.controls;
+  }
+
+  addToCartBooks(books) {
+    const data = {
+      userId: this.user.uid,
+      books: books
+    }
+    this.firestore.collection('bookcart').add(data);
   }
 
   checkoutBooks(book, user) {

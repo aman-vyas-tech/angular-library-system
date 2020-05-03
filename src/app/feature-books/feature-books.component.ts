@@ -15,9 +15,14 @@ export class FeatureBooksComponent implements OnInit {
 
   ngOnInit() {
     this.bookSubscription = this.bookDataService.getBooks().subscribe(books => {
-      this.books = books;
-      this.books = this.books.splice(0,6);
+      const data: any = books[0].payload.doc.data();
+      console.log(data);
+      this.books = data.books.splice(0,6);
     });
+  }
+
+  ngOnDestroy() {
+    this.bookSubscription.unsubscribe();
   }
 
 }

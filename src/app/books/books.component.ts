@@ -8,24 +8,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './books.component.html',
   styleUrls: ['./books.component.css']
 })
-export class BooksComponent implements OnInit {
+export class BooksComponent {
   @Input('books') books: Book[];
-  bookSubscription: Subscription;
-  fewbooks: Book[];
   constructor(private bookDataService: BookDataService) { }
-
-  ngOnInit() {
-    this.getBooksData();
-  }
-
-  public getBooksData() {
-    this.bookSubscription = this.bookDataService.getBooks().subscribe(books => {
-      this.books = books;
-    });
-  }
-
-  ngoNDestroy() {
-    this.bookSubscription.unsubscribe();
-  }
-
 }

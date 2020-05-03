@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map, filter } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Book } from 'src/app/book';
 import { AngularFirestore } from '@angular/fire/firestore';
 
@@ -14,27 +14,17 @@ export class BookDataService {
     private firebase: AngularFirestore) {
      }
 
-  // getBooks(): Observable<Book[]> {
-  //   const url = 'assets/configurations/books.json';
-  //   return this.http.get<Book[]>(url);
-  // }
-
   getBooks() {
     return this.firebase.collection('books').snapshotChanges();
    }
 
-  // getBook(item) {
-  //  return this.getBooks();
-  //    );
-    
-
-    // (
-    //   map((books: Book[]) => {
-    //     return books.filter( book =>  {
-    //       return book.isbn == +item.id;
-    //     })
-    //   })
-  
+  getBook(books, item) {
+    const data: any = books[0].payload.doc.data();
+    return data.books.filter((book) => {
+      console.log(book.isbn == +item.id);
+      return book.isbn == +item.id;
+    });
+  }
 
   addBooks() {
     this.getBooks().subscribe(books => {

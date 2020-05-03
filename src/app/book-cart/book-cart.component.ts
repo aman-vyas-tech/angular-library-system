@@ -1,4 +1,5 @@
-import { AngularFirestore } from '@angular/fire/firestore/firestore';
+import { Subscription } from 'rxjs';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { User } from 'firebase';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { CheckoutService } from './../services/checkout.service';
@@ -17,7 +18,8 @@ export class BookCartComponent implements OnInit {
   book: Book;
   checkoutForm: FormGroup;
   user: User;
-  constructor(private activatedRouter: ActivatedRoute,
+  bookDetailsSubscription: Subscription;
+  constructor(private activatedRoute: ActivatedRoute,
               private bookDataService: BookDataService,
               private fb : FormBuilder,
               private auth: AngularFireAuth,
@@ -34,30 +36,34 @@ export class BookCartComponent implements OnInit {
       username: new FormControl('', Validators.required),
       issuedTillDate: new FormControl('', Validators.required)
     });
+    this.bookDetailsSubscription = this.activatedRoute.queryParams.subscribe(
+      (item) => {
+        this.bookDataService.getBooks().subscribe((books) => {
+          this.book = this.bookDataService.getBook(books, item)[0];
+          this.addToCartBooks(this.book);
+        });
+      }
+    );
   }
 
   getCartBooks() {
-    // TODO: To be used with API
-    // this.activatedRouter.queryParams.subscribe(param => {
-    //   this.book = param.book;
-    //   // this.bookDataService.getBook(item).subscribe(book => {
-    //   //   this.book = book;
-    //   // });
-    // });
-    this.book = this.checkoutService.issuedBooks[0];
-    console.log('Cart Book', this.book);
+    this.checkoutService.getCartBooks().subscribe(data => {
+      console.log(data);
+    });
   }
 
   get formControls() {
     return this.checkoutForm.controls;
   }
 
-  addToCartBooks(books) {
+  addToCartBooks(book) {
     const data = {
       userId: this.user.uid,
-      books: books
+      book: book
     }
-    this.firestore.collection('bookcart').add(data);
+    this.checkoutService.addtoCart(data).subscribe(data => {
+      console.log(data);
+    }); 
   }
 
   checkoutBooks(book, user) {

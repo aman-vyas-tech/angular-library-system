@@ -27,18 +27,10 @@ export class BookDetailsComponent implements OnInit {
     this.bookDetailsSubscription = this.activatedRoute.params.subscribe(
       (item) => {
         this.bookDataService.getBooks().subscribe((books) => {
-          this.book = this.getBook(books, item)[0];
+          this.book = this.bookDataService.getBook(books, item)[0];
         });
       }
     );
-  }
-
-  public getBook(books, item) {
-    const data: any = books[0].payload.doc.data();
-    return data.books.filter((book) => {
-      console.log(book.isbn == +item.id);
-      return book.isbn == +item.id;
-    });
   }
 
   public addtoWishList(book) {

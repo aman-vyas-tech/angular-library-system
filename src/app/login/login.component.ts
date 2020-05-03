@@ -1,49 +1,38 @@
-import { AuthService } from '../auth/auth.service';
-import { Okta } from './../auth/okta.service';
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
-import { AuthenticationService } from '../auth/authentication.service';
+import { Router } from "@angular/router";
+import { AuthService } from "./../auth/auth.service";
+import { Component, OnInit } from "@angular/core";
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  selector: "app-login",
+  templateUrl: "./login.component.html",
+  styleUrls: ["./login.component.css"],
 })
 export class LoginComponent implements OnInit {
-  loginForm: FormGroup;
-  user;
-  oktaSignIn;
-  submitted: boolean;
-  loading: boolean;
-  error: any;
-  returnUrl: any;
-  constructor(private fb: FormBuilder, private route: ActivatedRoute,
-    private router: Router,
-    private authService: AuthService ) {
-      // redirect to home if already logged in
-      this.authService.isAuthenticated$.subscribe( loggedIn => {
-        if(loggedIn) {
-          this.router.navigate(['/home']);
-        }
-      })
-   }
+  public isLoginMode = true;
+  constructor(private auth: AuthService, private router: Router) {}
 
-  ngOnInit() {
-    this.loginForm = this.fb.group({
-      username: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required])
+  ngOnInit(): void {
+    if (localStorage.getItem("user")) {
+      this.router.navigate(["home"]);
+    }
+  }
+
+  public switchLoginMode() {
+    return !this.isLoginMode;
+  }
+
+  login(email, password) {
+    console.log(email, password);
+    this.auth.login(email, password);
+  }
+
+  signUp(email, password) {
+    this.auth.userSignUP(email, password).subscribe((resData) => {
+      console.log(resData);
     });
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
-  get formControls() {
-    return this.loginForm.controls;
-  }
-
-  onLogin() {
-    this.authService.login();
+  public loginWithGoogle() {
+    this.auth.loginWithGoogle();
   }
 }
-
-

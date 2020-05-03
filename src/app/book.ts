@@ -13,4 +13,5 @@ export class Book {
      wishlist: boolean;
      issued: boolean;
      issuesTo: string;
+     count: number;
 }

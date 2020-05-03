@@ -2,7 +2,6 @@ import { AuthService } from './auth/auth.service';
 import { Component } from '@angular/core';
 import { User } from './_models';
 import { Router } from '@angular/router';
-import { AuthenticationService } from './auth/authentication.service';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +18,7 @@ export class AppComponent {
       
   }
   ngOnInit() {
-    this.authService.localAuthSetup();
+    // this.authService.localAuthSetup();
   }
   logout() {
       this.authService.logout();

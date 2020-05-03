@@ -1,10 +1,34 @@
 <div class="login-page">
     <mat-card>
-        <!-- <mat-card-title class="title">
-            Application Login
-        </mat-card-title> -->
         <mat-card-content>
-            <button mat-raised-button (click)="onLogin()" type="button">Login/SignUp</button>
+            <div class="login-container">
+                <h2>Login/Signup</h2>
+                <div class="user-form">
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" class="form-control" ngModel="email" #email=ngModel>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Password:</label>
+                        <input type="password" class="form-control" ngModel="password" #password=ngModel>
+                    </div>
+                </div>
+                <div class="login-buttons">
+                    <button mat-raised-button color="primary" class="login-btn"
+                        (click)="login(email.value, password.value)">Login</button>
+                    <button mat-raised-button color="primary" class="login-btn" 
+                    (click)="signUp(email.value, password.value)" type="button">SignUp</button>
+                </div>
+                <div>
+                    <mat-divider></mat-divider>
+                </div>
+                <div class="login-google">
+                    <ng-container>
+                        <button mat-raised-button color="primary" mat-raised-button (click)="loginWithGoogle()"
+                            type="button">Login with Google</button>
+                    </ng-container>
+                </div>
+            </div>
         </mat-card-content>
     </mat-card>
 </div>

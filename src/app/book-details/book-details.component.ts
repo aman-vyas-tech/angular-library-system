@@ -1,3 +1,4 @@
+import { Book } from 'src/app/book';
 import { CheckoutService } from './../services/checkout.service';
 import { BookWishlistService } from './../services/book-wishlist.service';
 import { Subscription } from 'rxjs';
@@ -11,7 +12,7 @@ import { BookDataService } from '../services/books/book-data.service';
   styleUrls: ['./book-details.component.css']
 })
 export class BookDetailsComponent implements OnInit {
-  book = {};
+  book : Book;
   bookDetailsSubscription: Subscription;
 
   constructor(private router: Router,

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { filter, tap, concatMap, map, flatMap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Book } from 'src/app/book';
 
 @Injectable({
@@ -26,4 +26,10 @@ export class BookDataService {
     })
     )
   }
+
+  // addBooks(books): Observable<Book[]> {
+  //   this.getBooks().subscribe(books => {
+  //     return this.auth
+  //   })
+  // }
 }

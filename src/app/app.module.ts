@@ -1,5 +1,10 @@
+// Auht Guards
 import { AuthGuard } from './auth/auth.guard';
+
+// Services
 import { AuthService } from './auth/auth.service';
+
+// App Modules
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { MatInputModule, 
@@ -14,10 +19,12 @@ import { MatInputModule,
          MatToolbarModule, 
          MatIconModule,
          MatMenuModule} from '@angular/material';
+import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { AppRoutingModule } from './app-routing.module';
+// App Components
 import { AppComponent } from './app.component';
 import { LibraryHomeComponent } from './library-home/library-home.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
@@ -42,12 +49,14 @@ import { AboutUsComponent } from './about-us/about-us.component';
 import { ContactComponent } from './contact/contact.component';
 import { FeatureBooksComponent } from './feature-books/feature-books.component';
 import { BookWishlistComponent } from './book-wishlist/book-wishlist.component';
-import { JwtInterceptor } from './auth/jwt.interceptor';
-import { ErrorInterceptor, fakeBackendProvider } from './auth';
 import { CallbackComponent } from './callback/callback.component';
 import { OrderConfirmComponent } from './order-confirm/order-confirm.component';
-import { BookCarouselComponent } from './book-carousel/book-carousel.component';
-import { CarouselItemDirective } from './carousel-item.directive';
+
+// Firebase
+import { AngularFireModule } from '@angular/fire';
+import { environment } from '../environments/environment';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 
 @NgModule({
   declarations: [
@@ -75,14 +84,13 @@ import { CarouselItemDirective } from './carousel-item.directive';
     FeatureBooksComponent,
     BookWishlistComponent,
     CallbackComponent,
-    OrderConfirmComponent,
-    BookCarouselComponent,
-    CarouselItemDirective
+    OrderConfirmComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    FormsModule,
     MatCardModule,
     MatInputModule,
     MatFormFieldModule,
@@ -96,14 +104,17 @@ import { CarouselItemDirective } from './carousel-item.directive';
     MatNativeDateModule,
     MatToolbarModule,
     MatIconModule,
-    MatMenuModule
+    MatMenuModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig, 'angular-firestore'),
+    AngularFirestoreModule,
+    AngularFireAuthModule,
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    // { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 
     // provider used to create fake backend
-    fakeBackendProvider,
+    // fakeBackendProvider,
     AuthService,
     AuthGuard
   ],

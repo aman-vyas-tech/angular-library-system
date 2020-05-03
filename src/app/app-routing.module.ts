@@ -17,7 +17,7 @@ const routes: Routes = [
   { path: '', component: LoginComponent},
   { path: 'callback', component: CallbackComponent },
   { path: '', canActivate: [AuthGuard], children: [
-  { path: 'home',   component: LibraryHomeComponent,  canActivate: [AuthGuard]},
+  { path: 'home',   component: LibraryHomeComponent },
   { path: 'search', component: BookSearchComponent }, 
   { path: 'wishlist', component: BookWishlistComponent },
   { path: 'book/:id', component: BookDetailsComponent },

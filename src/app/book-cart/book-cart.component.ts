@@ -1,3 +1,4 @@
+import { Books } from './../books';
 import { Subscription } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { User } from 'firebase';
@@ -15,7 +16,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
   styleUrls: ['./book-cart.component.css']
 })
 export class BookCartComponent implements OnInit {
-  book: Book;
+  books = [];
   checkoutForm: FormGroup;
   user: User;
   bookDetailsSubscription: Subscription;
@@ -38,12 +39,22 @@ export class BookCartComponent implements OnInit {
     });
     this.bookDetailsSubscription = this.activatedRoute.queryParams.subscribe(
       (item) => {
-        this.bookDataService.getBooks().subscribe((books) => {
-          this.book = this.bookDataService.getBook(books, item)[0];
-          this.addToCartBooks(this.book);
-        });
+        // this.bookDataService.getBooks().subscribe((books) => {
+          this.bookDataService.getBooks().subscribe(books => {
+            let booksData = books[0].payload.doc.data();
+            this.books = this.filterBookRes(booksData, item);
+          });
+          //this.addToCartBooks(this.book);
+        // });
       }
     );
+  }
+
+  filterBookRes(bookRes, item) {
+    return bookRes.books.filter((book) => {
+      console.log(book.isbn == +item.id);
+      return book.isbn == +item.id;
+    });
   }
 
   getCartBooks() {

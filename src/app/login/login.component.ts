@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
     if (localStorage.getItem("user")) {
       this.router.navigate(["home"]);
     }
-  }
+  } 
 
   public switchLoginMode() {
     return !this.isLoginMode;

@@ -5,6 +5,7 @@ import { Subscription } from "rxjs";
 import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import { BookDataService } from "../services/books/book-data.service";
+import { AngularFireAuth } from "@angular/fire/auth";
 
 @Component({
   selector: "app-book-details",
@@ -14,16 +15,25 @@ import { BookDataService } from "../services/books/book-data.service";
 export class BookDetailsComponent implements OnInit {
   book = {};
   bookDetailsSubscription: Subscription;
+  user: any;
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private bookDataService: BookDataService,
     private wishlistService: BookWishlistService,
-    private checkoutService: CheckoutService
+    private checkoutService: CheckoutService,
+    private authFire: AngularFireAuth
   ) {}
 
   ngOnInit() {
+    this.getBook();
+    this.authFire.authState.subscribe(user => {
+      this.user = user.email;
+    })
+  }
+
+  public getBook() {
     this.bookDetailsSubscription = this.activatedRoute.params.subscribe(
       (item) => {
         this.bookDataService.getBooks().subscribe(data => {
@@ -34,8 +44,6 @@ export class BookDetailsComponent implements OnInit {
     );
   }
 
- 
-
   public addtoWishList(book) {
     book.wishlist = true;
     this.wishlistService.addToWishlist(book).subscribe(
@@ -43,16 +51,15 @@ export class BookDetailsComponent implements OnInit {
         console.log("Book added to wishlist", res);
       },
       (error) => {
-        console.log("Erro Occured While adding to wishlist");
+        console.log("Erro Occured While adding to wishlist",error);
       }
     );
   }
 
-  public addToCart(book, user = "admin") {
-    book.issued = true;
-    book.issuedTo = user;
+  public addToCart(book) {
+    book.cartUserId = this.user;
     this.checkoutService.addtoCart(book);
-    this.router.navigate(["/cart"], { queryParams: { id: book.isbn } });
+    this.router.navigate(["/cart"]);
   }
 
   ngOnDestroy() {

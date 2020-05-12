@@ -1,65 +1,52 @@
-import { Books } from './../books';
-import { Subscription } from 'rxjs';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { User } from 'firebase';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { CheckoutService } from './../services/checkout.service';
-import { Book } from 'src/app/book';
-import { BookDataService } from './../services/books/book-data.service';
-import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { Books } from "./../books";
+import { Subscription } from "rxjs";
+import { User } from "firebase";
+import { AngularFireAuth } from "@angular/fire/auth";
+import { CheckoutService } from "./../services/checkout.service";
+import { BookDataService } from "./../services/books/book-data.service";
+import { Component, OnInit, AfterViewInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import {
+  FormBuilder,
+  FormGroup,
+  FormControl,
+  Validators,
+} from "@angular/forms";
 
 @Component({
-  selector: 'app-book-cart',
-  templateUrl: './book-cart.component.html',
-  styleUrls: ['./book-cart.component.css']
+  selector: "app-book-cart",
+  templateUrl: "./book-cart.component.html",
+  styleUrls: ["./book-cart.component.css"],
 })
 export class BookCartComponent implements OnInit {
   books = [];
   checkoutForm: FormGroup;
   user: User;
   bookDetailsSubscription: Subscription;
-  constructor(private activatedRoute: ActivatedRoute,
-              private bookDataService: BookDataService,
-              private fb : FormBuilder,
-              private auth: AngularFireAuth,
-              private firestore: AngularFirestore,
-              private checkoutService: CheckoutService,
-              private router: Router) {  }
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private bookDataService: BookDataService,
+    private fb: FormBuilder,
+    private auth: AngularFireAuth,
+    private checkoutService: CheckoutService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
-    this.auth.authState.subscribe(user => {
+    this.auth.authState.subscribe((user) => {
       this.user = user;
-    })
+    });
     this.getCartBooks();
     this.checkoutForm = this.fb.group({
-      username: new FormControl('', Validators.required),
-      issuedTillDate: new FormControl('', Validators.required)
-    });
-    this.bookDetailsSubscription = this.activatedRoute.queryParams.subscribe(
-      (item) => {
-        // this.bookDataService.getBooks().subscribe((books) => {
-          this.bookDataService.getBooks().subscribe(books => {
-            let booksData = books[0].payload.doc.data();
-            this.books = this.filterBookRes(booksData, item);
-          });
-          //this.addToCartBooks(this.book);
-        // });
-      }
-    );
-  }
-
-  filterBookRes(bookRes, item) {
-    return bookRes.books.filter((book) => {
-      console.log(book.isbn == +item.id);
-      return book.isbn == +item.id;
+      issuedTillDate: new FormControl("", Validators.required),
     });
   }
 
   getCartBooks() {
-    this.checkoutService.getCartBooks().subscribe(data => {
-      console.log(data);
+    this.checkoutService.getCartBooks().subscribe((data) => {
+      data.forEach((item) => {
+        this.books.push(item.payload.doc.data());
+      });
     });
   }
 
@@ -67,29 +54,20 @@ export class BookCartComponent implements OnInit {
     return this.checkoutForm.controls;
   }
 
-  addToCartBooks(book) {
-    const data = {
-      userId: this.user.uid,
-      book: book
-    }
-    this.checkoutService.addtoCart(data).subscribe(data => {
-      console.log(data);
-    }); 
+  checkoutBooks(books) {
+    books.forEach((book) => {
+      book.issuedTo = this.user.email;
+      book.issuedTillDate = this.checkoutForm.get("issuedTillDate").value;
+      book.count = book.count - 1;
+    });
+    this.checkoutService.checkoutBook(books).subscribe(
+        (res) => {
+          this.router.navigate(["/confirm"], { state: { ...books } });
+          console.log("Book Added to Checkout", res);
+        },
+        (error) => {
+          console.log("Error Occured while checkout", error);
+        }
+      );
   }
-
-  checkoutBooks(book, user) {
-    book.issuedTo = this.checkoutForm.get('username').value;
-    book.issuedTillDate = this.checkoutForm.get('issuedTillDate').value;
-    book.count = book.count-1;
-    this.checkoutService.checkoutBook(book).subscribe(
-      res => {
-        this.router.navigate(['/confirm'],{ state: {...book}});
-        console.log('Book Added to Checkout', res);
-      },
-      error => {
-        console.log('Error Occured while checkout',error);
-      }
-    )
-  }
-
 }

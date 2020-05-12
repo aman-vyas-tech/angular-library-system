@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { AngularFireAuth } from "@angular/fire/auth";
 
 @Component({
   selector: 'app-order-confirm',
@@ -7,15 +8,15 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./order-confirm.component.css']
 })
 export class OrderConfirmComponent implements OnInit {
-
+  user: any;
   public confirmedOrder;
-  constructor(private activatedRouter: ActivatedRoute) { }
+  constructor(private activatedRouter: ActivatedRoute,
+              private authFire: AngularFireAuth) { }
 
   ngOnInit() {
-    // this.activatedRouter.queryParams.subscribe(book => {
-    //  // this.confirmedOrder = book;
-    // });
-    this.confirmedOrder = window.history.state;
+    this.authFire.user.subscribe(user => {
+      this.user = user.displayName;
+    });
   }
 
 }

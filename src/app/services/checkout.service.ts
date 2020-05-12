@@ -20,8 +20,9 @@ export class CheckoutService {
     return this.firestore.collection('bookcart').snapshotChanges();
   }
 
-  checkoutBook(book): Observable<Book[]>{
-    this.checkoutBooks.push(book);
-    return of(this.checkoutBooks);
+  checkoutBook(books): Observable<any> {
+    return of(books.forEach(book => {
+      this.firestore.collection('checkoutBooks').add(book);
+    }));
   }
 }

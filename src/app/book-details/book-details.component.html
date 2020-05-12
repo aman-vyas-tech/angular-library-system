@@ -25,7 +25,7 @@
           </div>
         </mat-card-content>
         <mat-card-actions>
-          <button mat-raised-button [disabled]="book.count === 0" color="primary" (click)="addToCart(book)">Issue Book</button>
+          <button mat-raised-button [disabled]="book.count === 0" color="primary" (click)="addToCart(book)">Add to Cart</button>
           <button mat-raised-button [disabled]="book.count === 0">Out Of Stock</button>
           <button mat-raised-button  (click)="addtoWishList(book)" [disabled]="book.wishlist">{{book.wishlist ? 'Added to Wishlist': 'Add to WIshlist'}}</button>
           <button mat-button>{{ book.count }} books left..!!</button>

@@ -64,6 +64,7 @@ export class BookCartComponent implements OnInit {
         (res) => {
           this.router.navigate(["/confirm"], { state: { ...books } });
           console.log("Book Added to Checkout", res);
+          this.checkoutService.clearBookCart();
         },
         (error) => {
           console.log("Error Occured while checkout", error);

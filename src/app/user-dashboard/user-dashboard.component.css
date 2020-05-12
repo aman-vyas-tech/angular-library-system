@@ -1,4 +1,12 @@
 .user-dashboard-container {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+}
+
+.issued-books {
+    display: flex;
+    flex-direction: row;
+}
+.book-item {
+    width: 33.33%;
 }

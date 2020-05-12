@@ -25,4 +25,12 @@ export class CheckoutService {
       this.firestore.collection('checkoutBooks').add(book);
     }));
   }
+
+  getCheckoutBooks() {
+    this.firestore.collection('checkoutBooks').snapshotChanges();
+  }
+
+  clearBookCart() {
+    this.firestore.collection('bookcart').doc().delete();
+  }
 }

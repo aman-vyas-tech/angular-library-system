@@ -1,8 +1,12 @@
 <div class="user-dashboard-container">
+    <div><h1>User Dashboard</h1></div>
+    <div><h2>{{username}}, books issued to you</h2></div>
     <div class="no-books" *ngIf="!isBooks">
         No Issued Books
     </div>
-    <div class="issues-books" *ngIf="isBooks">
-       
+    <div class="issued-books" *ngIf="isBooks">
+       <div class="book-item" *ngFor="let book of books">
+           <app-book-item [book]="book"></app-book-item>
+       </div>
     </div>
 </div>

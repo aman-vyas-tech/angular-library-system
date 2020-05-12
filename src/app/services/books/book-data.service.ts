@@ -16,6 +16,13 @@ export class BookDataService {
   getBooks() {
     return this.firebase.collection('books').snapshotChanges();
    }
+  
+
+  public filterBooks(bookData, item) {
+    return bookData.filter((book) => {
+      return book.isbn == item.id;
+    });
+  }
 
   addBooks() {
     this.getBooks().subscribe(books => {

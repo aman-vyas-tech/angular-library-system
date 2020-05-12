@@ -26,12 +26,15 @@ export class BookDetailsComponent implements OnInit {
   ngOnInit() {
     this.bookDetailsSubscription = this.activatedRoute.params.subscribe(
       (item) => {
-        this.bookDataService.getBooks().subscribe((books) => {
-          this.book = this.bookDataService.getBook(books, item)[0];
+        this.bookDataService.getBooks().subscribe(data => {
+          let books = data[0].payload.doc.data() as any;
+          this.book = this.bookDataService.filterBooks(books.books, item)[0];
         });
       }
     );
   }
+
+ 
 
   public addtoWishList(book) {
     book.wishlist = true;

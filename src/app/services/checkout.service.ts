@@ -23,6 +23,5 @@ export class CheckoutService {
   checkoutBook(book): Observable<Book[]>{
     this.checkoutBooks.push(book);
     return of(this.checkoutBooks);
-    console.log('Checkout Books', this.checkoutBooks);
   }
 }

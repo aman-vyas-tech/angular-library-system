@@ -1,7 +1,23 @@
 .cart-container {
-    display: flex;
-    justify-content: space-evenly;
+  display: flex;
+  justify-content: space-evenly;
 }
 .error {
-    color: red;
-  }
+  color: red;
+}
+
+.book-cart {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex-grow: 1;
+}
+
+.book-item {
+  width: 33.33%;
+}
+
+.checkout-form {
+  display: flex;
+  justify-content: center;
+}

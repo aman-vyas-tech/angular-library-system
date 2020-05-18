@@ -13,9 +13,10 @@ import { AngularFireAuth } from "@angular/fire/auth";
   styleUrls: ["./book-details.component.css"],
 })
 export class BookDetailsComponent implements OnInit {
-  book = {};
+  book: Book;
   bookDetailsSubscription: Subscription;
   user: any;
+  username: any;
 
   constructor(
     private router: Router,
@@ -30,7 +31,8 @@ export class BookDetailsComponent implements OnInit {
     this.getBook();
     this.authFire.authState.subscribe(user => {
       this.user = user.email;
-    })
+      this.username = user.displayName;
+    });
   }
 
   public getBook() {

@@ -15,8 +15,8 @@ export class BookDataService {
     return this.firebase.collection("books").snapshotChanges();
   }
 
-  getBook(id) {
-    return this.firebase.collection('books').doc(id).get();
+  getBook(book) {
+    return this.firebase.collection('books').doc(book.isbn).get();
   }
 
   public filterBooks(bookData, item) {

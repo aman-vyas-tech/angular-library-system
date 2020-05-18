@@ -1,6 +1,8 @@
+import { BookDataService } from './../services/books/book-data.service';
 import { CheckoutService } from "./../services/checkout.service";
 import { Component, OnInit } from "@angular/core";
 import { AngularFireAuth } from "@angular/fire/auth";
+import { Book } from '../book';
 
 @Component({
   selector: "app-user-dashboard",
@@ -9,12 +11,13 @@ import { AngularFireAuth } from "@angular/fire/auth";
 })
 export class UserDashboardComponent implements OnInit {
   public isBooks = false;
-  books: any;
+  books = [];
   useremail: string;
   username: string;
   constructor(
     private checkoutService: CheckoutService,
-    private authFire: AngularFireAuth
+    private authFire: AngularFireAuth,
+    private bookDataService: BookDataService
   ) {}
 
   ngOnInit() {
@@ -28,19 +31,24 @@ export class UserDashboardComponent implements OnInit {
   }
 
   public getUserBooks() {
-    this.checkoutService.getCartBooks().subscribe((data) => {
-      let books =[];
-      data.forEach(item => {
-        books.push(item.payload.doc.data()); 
-      });
-      this.books = this.filterUserBooks(books);
-      this.isBooks = true;
+    this.checkoutService.getCheckoutBooks().subscribe((data) => {
+      if(data && data.length > 0 ) {
+        data.forEach(item => {
+          let book = item.payload.doc.data() as Book;
+          if(this.useremail === book.issuedTo) {
+            this.bookDataService.getBook(book).subscribe(data => {
+              this.books.push(data.data());
+            })
+          }
+       });
+       this.isBooks = true;
+      }
     });
   }
 
   public filterUserBooks(books) {
     return books.filter(book => {
-      return book.cartUserId == this.useremail;
+      return book.issuedTo == this.useremail;
     });
   }
 }

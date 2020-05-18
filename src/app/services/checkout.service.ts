@@ -1,8 +1,8 @@
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable, of } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Book } from '../book';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -10,10 +10,16 @@ import { Book } from '../book';
 export class CheckoutService {
   issuedBooks: Book[] = [];
   checkoutBooks: Book[] = [];
-  constructor(private http: HttpClient, private firestore: AngularFirestore) { }
+  user: string;
+  constructor(private firestore: AngularFirestore,
+              private fireAuth: AngularFireAuth) {
+      this.fireAuth.authState.subscribe(user => {
+        this.user = user.email;
+      })
+   }
 
   addtoCart(data) {
-    return of(this.firestore.collection('bookcart').add(data));
+    return of(this.firestore.collection('bookcart').doc(data.isbn).set(data));
   }
 
   getCartBooks() {
@@ -21,16 +27,26 @@ export class CheckoutService {
   }
 
   checkoutBook(books): Observable<any> {
+    let data;
     return of(books.forEach(book => {
-      this.firestore.collection('checkoutBooks').add(book);
+      data = {
+        userId: book.issuedTo,
+        isbn : book.isbn
+      }
+      this.firestore.collection('checkoutBooks').doc(book.isbn).set(data);
+      this.firestore.collection('books').doc(book.isbn).update({
+        count: book.count
+      })
     }));
   }
 
   getCheckoutBooks() {
-    this.firestore.collection('checkoutBooks').snapshotChanges();
+    return this.firestore.collection('checkoutBooks').snapshotChanges();
   }
 
-  clearBookCart() {
-    this.firestore.collection('bookcart').doc().delete();
+  clearCart(books) {
+     return of(books.forEach(item => {
+        this.firestore.collection('bookcart').doc(item.isbn).delete();
+      }));
   }
 }

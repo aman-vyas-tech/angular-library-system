@@ -17,6 +17,7 @@ export class BookDetailsComponent implements OnInit {
   bookDetailsSubscription: Subscription;
   user: any;
   username: any;
+  returnBook = false;
 
   constructor(
     private router: Router,
@@ -38,9 +39,11 @@ export class BookDetailsComponent implements OnInit {
   public getBook() {
     this.bookDetailsSubscription = this.activatedRoute.params.subscribe(
       (item) => {
-        this.bookDataService.getBooks().subscribe(data => {
-          let books = data[0].payload.doc.data() as any;
-          this.book = this.bookDataService.filterBooks(books.books, item)[0];
+        this.bookDataService.getBook(item.id).subscribe(data => {  
+          this.book = data.data() as Book;
+          if(this.book.issuedTo == this.username) {
+            this.returnBook = true;
+          }
         });
       }
     );
@@ -58,10 +61,15 @@ export class BookDetailsComponent implements OnInit {
     );
   }
 
-  public addToCart(book) {
-    book.cartUserId = this.user;
-    this.checkoutService.addtoCart(book);
-    this.router.navigate(["/cart"]);
+  addToCart(book) {
+    let data = {
+      isbn: book.isbn,
+      user: this.user,
+    };
+    this.checkoutService.addtoCart(data).subscribe((res) => {
+      console.log(res);
+      this.router.navigate(['cart']);
+    });
   }
 
   ngOnDestroy() {

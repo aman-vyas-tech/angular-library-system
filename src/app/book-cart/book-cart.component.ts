@@ -1,11 +1,9 @@
-import { Books } from "./../books";
 import { Subscription } from "rxjs";
-import { User } from "firebase";
 import { AngularFireAuth } from "@angular/fire/auth";
 import { CheckoutService } from "./../services/checkout.service";
 import { BookDataService } from "./../services/books/book-data.service";
-import { Component, OnInit, AfterViewInit } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 import {
   FormBuilder,
   FormGroup,
@@ -20,11 +18,12 @@ import {
 })
 export class BookCartComponent implements OnInit {
   books = [];
+  cartResponse = [];
   checkoutForm: FormGroup;
-  user: User;
+  user: string;
   bookDetailsSubscription: Subscription;
+  minDate = new Date();
   constructor(
-    private activatedRoute: ActivatedRoute,
     private bookDataService: BookDataService,
     private fb: FormBuilder,
     private auth: AngularFireAuth,
@@ -34,7 +33,7 @@ export class BookCartComponent implements OnInit {
 
   ngOnInit() {
     this.auth.authState.subscribe((user) => {
-      this.user = user;
+      this.user = user.email;
     });
     this.getCartBooks();
     this.checkoutForm = this.fb.group({
@@ -44,9 +43,14 @@ export class BookCartComponent implements OnInit {
 
   getCartBooks() {
     this.checkoutService.getCartBooks().subscribe((data) => {
-      data.forEach((item) => {
-        this.books.push(item.payload.doc.data());
-      });
+      if (data && data.length > 0) {
+        this.cartResponse = data;
+        this.cartResponse.forEach((item) => {
+          this.getCartBook(item);
+        });
+      } else {
+        return;
+      }
     });
   }
 
@@ -54,21 +58,30 @@ export class BookCartComponent implements OnInit {
     return this.checkoutForm.controls;
   }
 
+  getCartBook(data) {
+    let book = data.payload.doc.data() as any;
+    if (book && this.user && book.user === this.user) {
+      this.bookDataService.getBook(book).subscribe((book) => {
+        this.books.push(book.data());
+      });
+    }
+  }
+
   checkoutBooks(books) {
     books.forEach((book) => {
-      book.issuedTo = this.user.email;
+      book.issuedTo = this.user;
       book.issuedTillDate = this.checkoutForm.get("issuedTillDate").value;
       book.count = book.count - 1;
     });
     this.checkoutService.checkoutBook(books).subscribe(
-        (res) => {
-          this.router.navigate(["/confirm"], { state: { ...books } });
-          console.log("Book Added to Checkout", res);
-          // this.checkoutService.clearBookCart();
-        },
-        (error) => {
-          console.log("Error Occured while checkout", error);
-        }
-      );
+      (res) => {
+        this.router.navigate(["/confirm"], { state: { ...books } });
+        console.log("Book Added to Checkout", res);
+        this.checkoutService.clearCart(books);
+      },
+      (error) => {
+        console.log("Error Occured while checkout", error);
+      }
+    );
   }
 }

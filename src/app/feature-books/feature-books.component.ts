@@ -9,20 +9,27 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./feature-books.component.css']
 })
 export class FeatureBooksComponent implements OnInit {
-  books: Book[];
+  books = [];
   bookSubscription: Subscription;
   constructor(private bookDataService: BookDataService) { }
 
   ngOnInit() {
-    this.bookSubscription = this.bookDataService.getBooks().subscribe(books => {
-      const data: any = books[0].payload.doc.data();
-      console.log(data);
-      this.books = data.books.splice(0,6);
+   this.getAllBooks();
+  }
+
+  getAllBooks() {
+    this.bookSubscription = this.bookDataService
+    .getBooks()
+    .subscribe((books) => {
+      books = books.splice(0,6);
+      books.forEach((data) => {
+        console.log(data.payload.doc.data());
+        this.books.push(data.payload.doc.data() as Book);
+      });
     });
   }
 
   ngOnDestroy() {
     this.bookSubscription.unsubscribe();
   }
-
 }

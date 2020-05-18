@@ -18,8 +18,8 @@ export class AppComponent {
       
   }
   ngOnInit() {
-    // this.authService.localAuthSetup();
   }
+  
   logout() {
       this.authService.logout();
   }

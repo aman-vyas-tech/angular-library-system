@@ -17,7 +17,7 @@ import { Book } from "../book";
 export class BookSearchComponent implements OnInit {
   searchForm: FormGroup;
   filteredBooks: Book[];
-  books: Book[];
+  books = [];
   bookSubscription: Subscription;
   constructor(
     private fb: FormBuilder,
@@ -28,14 +28,18 @@ export class BookSearchComponent implements OnInit {
     this.searchForm = this.fb.group({
       searchKey: new FormControl(""),
     });
+    this.getAllBooks();
+  }
 
+  getAllBooks() {
     this.bookSubscription = this.bookDataService
-      .getBooks()
-      .subscribe((books) => {
-        const data: any = books[0].payload.doc.data();
-        console.log(data);
-        this.books = data.books;
+    .getBooks()
+    .subscribe((books) => {
+      books.forEach((data) => {
+        console.log(data.payload.doc.data());
+        this.books.push(data.payload.doc.data() as Book);
       });
+    });
   }
 
   onSearch() {

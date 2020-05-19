@@ -2,6 +2,7 @@ import { Book } from "src/app/book";
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { AngularFirestore } from "@angular/fire/firestore";
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: "root",
@@ -15,8 +16,8 @@ export class BookDataService {
     return this.firebase.collection("books").snapshotChanges();
   }
 
-  getBook(book) {
-    return this.firebase.collection('books').doc(book.isbn).get();
+  getBook(id) {
+    return this.firebase.collection('books').doc(id).get();
   }
 
   public filterBooks(bookData, item) {
@@ -42,11 +43,11 @@ export class BookDataService {
     return this.firebase.collection("books").doc(book.isbn).set(book);
   }
 
-  removeBook(book) {
-    return this.firebase.collection('books').doc(book.isbn).delete();
+  returnBook(bookId) {
+    return of(this.firebase.collection('checkoutBooks').doc(bookId).delete());
   }
 
   updateBook(book) {
-    return this.firebase.collection('books').doc(book.isbn).update({});
+    return of(this.firebase.collection('books').doc(book.isbn).update(book));
   }
 }

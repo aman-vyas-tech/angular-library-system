@@ -12,6 +12,6 @@ export class Book {
      available:boolean;
      wishlist: boolean;
      issued: boolean;
-     issuesTo: string;
+     issuedTo: string;
      count: number;
 }

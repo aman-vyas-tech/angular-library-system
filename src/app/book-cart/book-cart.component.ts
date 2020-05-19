@@ -61,7 +61,7 @@ export class BookCartComponent implements OnInit {
   getCartBook(data) {
     let book = data.payload.doc.data() as any;
     if (book && this.user && book.user === this.user) {
-      this.bookDataService.getBook(book).subscribe((book) => {
+      this.bookDataService.getBook(book.isbn).subscribe((book) => {
         this.books.push(book.data());
       });
     }

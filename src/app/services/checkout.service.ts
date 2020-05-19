@@ -30,12 +30,13 @@ export class CheckoutService {
     let data;
     return of(books.forEach(book => {
       data = {
-        userId: book.issuedTo,
+        issuedTo: book.issuedTo,
         isbn : book.isbn
       }
       this.firestore.collection('checkoutBooks').doc(book.isbn).set(data);
       this.firestore.collection('books').doc(book.isbn).update({
-        count: book.count
+        count: book.count,
+        issuedTo: this.user
       })
     }));
   }

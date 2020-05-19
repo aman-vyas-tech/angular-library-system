@@ -17,7 +17,7 @@ export class BookDetailsComponent implements OnInit {
   bookDetailsSubscription: Subscription;
   user: any;
   username: any;
-  returnBook = false;
+  showReturnBook = false;
 
   constructor(
     private router: Router,
@@ -41,8 +41,8 @@ export class BookDetailsComponent implements OnInit {
       (item) => {
         this.bookDataService.getBook(item.id).subscribe(data => {  
           this.book = data.data() as Book;
-          if(this.book.issuedTo == this.username) {
-            this.returnBook = true;
+          if(this.book.issuedTo == this.user) {
+            this.showReturnBook = true;
           }
         });
       }
@@ -70,6 +70,16 @@ export class BookDetailsComponent implements OnInit {
       console.log(res);
       this.router.navigate(['cart']);
     });
+  }
+
+  returnBook(book) {
+    book.count+=1;
+    book.issuedTo = "";
+    this.bookDataService.returnBook(book.isbn).subscribe(res => {
+      this.bookDataService.updateBook(book).subscribe(res => {
+        console.log(res);
+      })
+    })
   }
 
   ngOnDestroy() {

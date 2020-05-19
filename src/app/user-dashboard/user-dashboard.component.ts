@@ -36,7 +36,7 @@ export class UserDashboardComponent implements OnInit {
         data.forEach(item => {
           let book = item.payload.doc.data() as Book;
           if(this.useremail === book.issuedTo) {
-            this.bookDataService.getBook(book).subscribe(data => {
+            this.bookDataService.getBook(book.isbn).subscribe(data => {
               this.books.push(data.data());
             })
           }

@@ -1,5 +1,8 @@
-<div class="wishlist-conatiner">
-    <div *ngFor="let book of wishListBooks">
+<div class="wishlist-conatiner" *ngIf="user">
+    <div>
+        <h1>{{user.displayName}}, your Wishlist is here.</h1>
+    </div>
+    <div *ngFor="let book of userWishList">
         <app-book-item [book]="book"></app-book-item>
     </div>
 </div>

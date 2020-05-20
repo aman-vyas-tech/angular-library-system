@@ -1,20 +1,19 @@
-import { Observable, from, of } from 'rxjs';
-import { Book } from 'src/app/book';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { of } from 'rxjs';
 import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BookWishlistService {
-  public wishList: Book[] =[];
-  constructor() { }
+  constructor(private firestore: AngularFirestore) { }
 
-  public addToWishlist(book: Book): Observable<Book[]> {
-    this.wishList.push(book);
-    return of(this.wishList);
+  public addToWishlist(book) {
+    return of(this.firestore.collection('wishlist').doc(book.isbn).set(book));
   }
 
-  public getWishList(): Observable<Book[]> {
-    return of(this.wishList);
+  public getAllWishList() {
+    return this.firestore.collection('wishlist').snapshotChanges();
   }
+
 }

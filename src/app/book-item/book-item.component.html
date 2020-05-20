@@ -7,7 +7,10 @@
             <img mat-card-image src="{{book.thumbnailUrl}}" alt="Photo Not Available">
         </div>
         <mat-card-actions align="center">
-          <button class="btn-action" *ngIf="true" mat-stroked-button color="primary" [routerLink]="['/book', book.isbn]">Details</button>
+          <div class="btn-actions">
+            <button class="btn-action" mat-stroked-button color="primary" [routerLink]="['/book', book.isbn]">Details</button>
+            <button class="btn-action" mat-stroked-button color="primary" (click)="addToWishList(book)"><span>Wishlist</span></button>
+          </div>
           <button class="btn-action" *ngIf="book.count === 0" mat-stroked-button  disabled>Out of Stock</button>
         </mat-card-actions>
       </mat-card>

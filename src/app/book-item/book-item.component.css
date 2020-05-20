@@ -27,6 +27,12 @@ img {
       width: 200px;
   }
 
+  div.btn-actions{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+  }
+
   button.btn-action {
-      margin-bottom: 10px;
+
   }

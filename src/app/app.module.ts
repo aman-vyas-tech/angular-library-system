@@ -18,11 +18,13 @@ import { MatInputModule,
          MatNativeDateModule,
          MatToolbarModule, 
          MatIconModule,
-         MatMenuModule} from '@angular/material';
+         MatMenuModule,
+         MatSidenavModule} from '@angular/material';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 // App Components
 import { AppComponent } from './app.component';
@@ -103,11 +105,13 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
     MatDatepickerModule,
     MatNativeDateModule,
     MatToolbarModule,
+    MatSidenavModule,
     MatIconModule,
     MatMenuModule,
     AngularFireModule.initializeApp(environment.firebaseConfig, 'angular-firestore'),
     AngularFirestoreModule,
     AngularFireAuthModule,
+    FlexLayoutModule
   ],
   providers: [
     // { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

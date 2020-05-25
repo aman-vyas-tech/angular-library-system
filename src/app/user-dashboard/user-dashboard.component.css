@@ -3,12 +3,17 @@
     flex-direction: column;
 }
 
-.issued-books {
+.container {
+    min-height: 100%;
+    width: 100%;
+  }
+
+/* .issued-books {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     flex-grow: 1;
-}
-.book-item {
+} */
+/* .book-item {
     width: 25%;
-}
+} */

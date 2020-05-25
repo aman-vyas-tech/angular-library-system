@@ -1,6 +1,6 @@
 <div class="cart-container">
     <div class="book-container" *ngIf="books.length > 0; else noBooks">
-        <div class="checkout-form">
+        <div class="checkout-form" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
             <form [formGroup]="checkoutForm" (ngSubmit)="checkoutBooks(books)">
                 <div class="form-field">
                     <mat-form-field>

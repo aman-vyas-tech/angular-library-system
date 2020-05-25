@@ -63,3 +63,8 @@ img {
  .example-spacer {
 	flex: 1 1 auto;
  }
+
+ .app-container {
+    margin: 0 auto;
+    width: 80%;
+}

@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
     <div class="books-container" *ngFor="let book of books">
         <app-book-item [book]="book"></app-book-item>
     </div>

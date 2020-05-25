@@ -1,4 +1,4 @@
-.feature-books-container {
+/* .feature-books-container {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -8,4 +8,9 @@
 
 .feature-books {
     width: 25%;
-}
+} */
+
+.container {
+    min-height: 100%;
+    width: 100%;
+  }
